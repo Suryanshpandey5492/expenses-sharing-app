@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Expenses Sharing App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1 class="fade-in">Welcome to the Daily Expenses Sharing App!</h1>
+
+    <div class="container">
+        <!-- Left Section for Registration/Login -->
+        <div class="left-section bounce-in">
+            <!-- Registration Section -->
+            <div id="registration-section" class="form-section" style="display:none;">
+                <h2>Register</h2>
+                <form id="registration-form">
+                    <input type="text" id="register-name" placeholder="Name" required>
+                    <input type="email" id="register-email" placeholder="Email" required>
+                    <input type="tel" id="register-mobile" placeholder="Mobile Number" required>
+                    <input type="password" id="register-password" placeholder="Password" required>
+                    <button type="submit">Register</button>
+                </form>
+                <p id="registration-message"></p>
+                <p>Already have an account? <a href="#" id="switch-to-login">Login here</a></p>
+            </div>
+
+            <!-- Login Section -->
+            <div id="login-section" class="form-section">
+                <h2>Login</h2>
+                <form id="login-form">
+                    <input type="email" id="login-email" placeholder="Email" required>
+                    <input type="password" id="login-password" placeholder="Password" required>
+                    <button type="submit">Login</button>
+                </form>
+                <p id="login-message"></p>
+                <p>Don't have an account? <a href="#" id="switch-to-registration">Register here</a></p>
+            </div>
+        </div>
+
+        <!-- Right Section for Expense Tracking (Initially Hidden) -->
+        <div class="right-section bounce-in" id="expense-section" style="display:none;">
+            <div class="flex-wrapper">
+                <!-- Left side for the form -->
+                <div class="expense-form-wrapper">
+                    <h2>Add Expense</h2>
+                    <form id="expense-form">
+                        <input type="text" id="payer-id" placeholder="Payer ID" required />
+                        <input type="text" id="expense-description" placeholder="Description" required />
+                        <input type="number" id="expense-amount" placeholder="Amount" required />
+
+                        <label for="split-method">Split Method:</label>
+                        <select id="split-method" required>
+                            <option value="equal">Equal</option>
+                            <option value="exact">Exact</option>
+                            <option value="percentage">Percentage</option>
+                        </select>
+
+                        <label for="participants">Participants (comma separated):</label>
+                        <input type="text" id="participants" required />
+
+                        <div id="amounts-container" style="display:none;">
+                            <label for="amounts">Amounts (comma separated for Exact or Percentage):</label>
+                            <input type="text" id="amounts" />
+                        </div>
+
+                        <button type="submit">Add Expense</button>
+                    </form>
+                </div>
+
+                <!-- Right side for expenses list and balance sheet -->
+                <div class="expense-list-wrapper">
+                    <h3>Expenses List</h3>
+                    <ul id="expense-list"></ul>
+
+                    <h2>Balance Sheet</h2>
+                    <div id="balance-sheet"></div>
+
+                    <button id="download-balance-sheet">Download Balance Sheet</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
+    <script>
+        // Switch between Registration and Login
+        document.getElementById('switch-to-login').addEventListener('click', function() {
+            document.getElementById('registration-section').style.display = 'none';
+            document.getElementById('login-section').style.display = 'block';
+        });
+
+        document.getElementById('switch-to-registration').addEventListener('click', function() {
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('registration-section').style.display = 'block';
+        });
+
+        // Handle Login Form Submission (Simulated)
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Simulating successful login for demo
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            if (email && password) {
+                document.getElementById('login-section').style.display = 'none';
+                document.getElementById('expense-section').style.display = 'flex'; /* Changed to flex to cover full width */
+                document.getElementById('registration-section').style.display = 'none';
+            } else {
+                document.getElementById('login-message').innerText = 'Login failed. Please try again.';
+            }
+        });
+
+        // Toggle Amounts Input Visibility
+        document.getElementById('split-method').addEventListener('change', function() {
+            const method = this.value;
+            const amountsContainer = document.getElementById('amounts-container');
+            amountsContainer.style.display = (method === 'exact' || method === 'percentage') ? 'block' : 'none';
+        });
+    </script>
+</body>
+</html>
